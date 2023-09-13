@@ -1,0 +1,3 @@
+#+title: Merge-lang
+ New approach to programming languages with generic multilang automated pipes,
+ *allowing you code* with multiple programming languages in a project with refreshing automation.
