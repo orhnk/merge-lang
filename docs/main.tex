@@ -1,0 +1,116 @@
+% Created 2023-09-13 Wed 20:51
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{utfeight}
+\date{\today}
+\title{Merge Programming Language}
+\hypersetup{
+ pdfauthor={utfeight},
+ pdftitle={Merge Programming Language},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 29.1 (Org mode 9.7)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{TLDR}
+\label{sec:org730b44b}
+
+New approach to programming languages with generic multilang communication system,
+\textbf{allowing you code} with multiple programming languages in a project with a modern automated interface.
+
+\section{Manifest}
+\label{sec:org0968061}
+Developing a project using multiple programming languages can easily become a complex task.
+although there are some Simpler solutions to this problem. They generally lack relaibility,
+performance, stability etc.
+
+This is a common situation that happens to all of us. For example:
+
+\begin{quote}
+X programming language has a library/framework that I cannot use with Y programming language.
+\end{quote}
+
+There are some solutions to this problem like:
+\begin{itemize}
+\item Transpilers: Automated X lang to Y lang converters. (just like .png to .jpeg but more complex)
+\item Rewrite: Rewriting the program in X lang. (e.g fish shell was written in C++, now it is getting rewritten in rust)
+\item FFI's (Foreign Function Interface)
+\item ABI's (Application Binary interface)
+\item Language Communication Protocols (e.g IPC, Shared Memory, Server)
+\item Wrappers: Custom libraries that wrap around the native language using Language Communication Protocols.
+\end{itemize}
+
+One of the few solution's that I mentioned above are hard to implement in general. Others are:
+
+\begin{itemize}
+\item Overall Transpilers: Could generate erroneous output (defective transpilers)
+\item Rewrites: Consumes a lot of time \& effort. Because of the human factor.
+\end{itemize}
+
+Because of these strenuous ways of implementing multi-lang interfaces We introdoce you merge-lang
+
+\subsection{merge-lang}
+\label{sec:orgb01f964}
+\begin{quote}
+A generic meta programming language that automates the process of combining programming languages in a project
+\end{quote}
+
+Merge takes another approach than the other solutions I mentioned.
+
+\subsubsection{Initial Algorithm}
+\label{sec:org3ca9825}
+\begin{itemize}
+\item Tokenizer (lexer)
+\item Inference (understands the data communication points: more on that in the next section)
+\item Constructing the file structure (splitting code to it's pieces by the fewest whispers\footnote{data transmissions done between programming languages.})
+\item Compiling
+\item Scheduling Execution
+\item Runtime
+\end{itemize}
+
+\subsection{Tokenizer}
+\label{sec:orgb6490d5}
+
+\subsection{Inference}
+\label{sec:org819c822}
+
+\subsection{File Structure}
+\label{sec:orgbee7e82}
+
+\subsection{Compile}
+\label{sec:orgf696a02}
+
+\subsection{Scheduling Execution}
+\label{sec:org4ca2343}
+
+The dependencies need to evaluate in a way that every language can get the value they need at the runtime in a linear way. (Just like single vs multi-thread apps)
+
+Think this as a major surgery with you (the doctor) and Mr. Clumsy (the nurse)
+
+If Mr. Clumsy gives you a cleaver instead of a lancet, the patient'd probably die.
+so Mr. Clumsy must give you the right tool to do the surgery. But It doesn't end here.
+If Mr. Clumsy'd give you a lancet one minute later (or before) than the time you need it.
+the patient'd die again because of haemorrhage. So timing is a must too!
+
+And don't forget that we made a preconception by saying that Mr. Clumsy will give us a thing :D
+
+
+\subsection{Runtime}
+\label{sec:orgf421e81}
+\end{document}
