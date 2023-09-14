@@ -1,6 +1,6 @@
-% Created 2023-09-13 Wed 20:51
+% Created 2023-09-14 Thu 18:03
 % Intended LaTeX compiler: pdflatex
-\documentclass[11pt]{article}
+\documentclass[9pt,twocolumn]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
@@ -28,14 +28,18 @@
 \tableofcontents
 
 
-\section{TLDR}
-\label{sec:org730b44b}
+\section{Merge}
+\label{sec:org5e70463}
+NOTE: Any of the features are not implemented yet. It's planned to do so.
+
+\subsection{TLDR}
+\label{sec:org4cdae27}
 
 New approach to programming languages with generic multilang communication system,
 \textbf{allowing you code} with multiple programming languages in a project with a modern automated interface.
 
-\section{Manifest}
-\label{sec:org0968061}
+\subsection{Manifest}
+\label{sec:orge3b4bfa}
 Developing a project using multiple programming languages can easily become a complex task.
 although there are some Simpler solutions to this problem. They generally lack relaibility,
 performance, stability etc.
@@ -65,52 +69,96 @@ One of the few solution's that I mentioned above are hard to implement in genera
 
 Because of these strenuous ways of implementing multi-lang interfaces We introdoce you merge-lang
 
-\subsection{merge-lang}
-\label{sec:orgb01f964}
+\subsubsection{merge-lang}
+\label{sec:org4489f97}
 \begin{quote}
 A generic meta programming language that automates the process of combining programming languages in a project
 \end{quote}
 
 Merge takes another approach than the other solutions I mentioned.
 
-\subsubsection{Initial Algorithm}
-\label{sec:org3ca9825}
+\begin{enumerate}
+\item Initial Algorithm
+\label{sec:orgd974185}
 \begin{itemize}
-\item Tokenizer (lexer)
 \item Inference (understands the data communication points: more on that in the next section)
 \item Constructing the file structure (splitting code to it's pieces by the fewest whispers\footnote{data transmissions done between programming languages.})
 \item Compiling
 \item Scheduling Execution
 \item Runtime
 \end{itemize}
+\end{enumerate}
 
-\subsection{Tokenizer}
-\label{sec:orgb6490d5}
 
-\subsection{Inference}
-\label{sec:org819c822}
+\subsubsection{Inference}
+\label{sec:orgbd6e88e}
+This is probably the most complex part of merge-lang. (Also the most innovative way)
+Look at the following example:
 
-\subsection{File Structure}
-\label{sec:orgbee7e82}
+\begin{verbatim}
+#[python]
+use *;
 
-\subsection{Compile}
-\label{sec:orgf696a02}
+fn main() {
+    python::print("hello, world");
 
-\subsection{Scheduling Execution}
-\label{sec:org4ca2343}
+    #[python]
+    {
+        a = "world"
+        print(f"hello {a}")
+    }
+
+    python!{
+        a = "hello"
+        print(f"{a} world!")
+        import a from b
+        a.hello()
+
+        def python_fn():
+            return 5
+    };
+
+    let val_py = python!(python_fn());
+    let val_py = python::python_fn();
+
+    println!("from rust: {val_py}");
+}
+\end{verbatim}
+
+\subsubsection{File Structure}
+\label{sec:orgbe66ccb}
+Writing our own compiler for all languages that we support would be imposible. Because of this merge compiler will split your code into pieces that external languages can understand.
+
+With this tecnique you can integrate any programming language to merge-lang using \hyperref[sec:orgbfd1349]{It's API}
+
+
+\subsubsection{Compile}
+\label{sec:org00c9a59}
+Merge language compiles to rust code, then LLVM IR and ASM.
+
+\subsubsection{Scheduling Execution}
+\label{sec:org04746a5}
 
 The dependencies need to evaluate in a way that every language can get the value they need at the runtime in a linear way. (Just like single vs multi-thread apps)
 
 Think this as a major surgery with you (the doctor) and Mr. Clumsy (the nurse)
 
-If Mr. Clumsy gives you a cleaver instead of a lancet, the patient'd probably die.
-so Mr. Clumsy must give you the right tool to do the surgery. But It doesn't end here.
-If Mr. Clumsy'd give you a lancet one minute later (or before) than the time you need it.
-the patient'd die again because of haemorrhage. So timing is a must too!
+\begin{enumerate}
+\item If Mr. Clumsy gives you a cleaver instead of a lancet, the patient'd probably die. So Mr. Clumsy must give you the right tool to do the surgery. But It doesn't end here.
+\item If Mr. Clumsy'd give you a lancet one minute later (or before) than the time you need it. The patient'd die again because of haemorrhage. So timing is a must too!
+\end{enumerate}
 
-And don't forget that we made a preconception by saying that Mr. Clumsy will give us a thing :D
+And don't forget that we made a preconception by saying that Mr. Clumsy will give us a thing.
 
+\subsubsection{Runtime}
+\label{sec:org477376b}
+It's wanted to see a nice execution sequience between languages that you use.
 
-\subsection{Runtime}
-\label{sec:orgf421e81}
+\subsection{Package Manager}
+\label{sec:orgea576ce}
+merge package manager is pending right now.
+
+\section{API}
+\label{sec:orgbfd1349}
+Merge-lang introduces an API to be able to use more and more languages with it.
 \end{document}
