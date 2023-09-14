@@ -4,6 +4,7 @@
 #+title: Merge Programming Language
 
 * Merge
+NOTE: Any of the features are not implemented yet. It's planned to do so.
 
 ** TLDR
 
@@ -56,6 +57,7 @@ Merge takes another approach than the other solutions I mentioned.
 *** Inference
 This is probably the most complex part of merge-lang. (Also the most innovative way)
 Look at the following example:
+
 #+begin_src rust
 #[python]
 use *;
