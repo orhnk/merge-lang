@@ -1,8 +1,12 @@
-[package]
-name = "merge"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+members = [
+  "core",
+  "examples/*",
+]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
+# [package]
+# name = "merge-lang"
+# version = "0.1.0"
+# edition = "2021"
+# authors = ["utfeight <utfeightt@gmail.com>"]
+# default-run = "merge"
