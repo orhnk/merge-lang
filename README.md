@@ -87,6 +87,7 @@ Merge takes another approach than the other solutions I mentioned.
 This is pro bably the most complex part of merge-lang. (Also the most innovative
 way) Look at the following example:
 
+````rust
     #[python]
     use *;
 
@@ -114,6 +115,7 @@ way) Look at the following example:
 
         println!("from rust: {val_py}");
     }
+```
 
 <a id="org86b962f"></a>
 
@@ -175,3 +177,4 @@ Merge-lang introduces an API to be able to use more and more languages with it.
 
 <sup><a id="fn.1" href="#fnr.1">1</a></sup> data transmissions done between
 programming languages.
+````
