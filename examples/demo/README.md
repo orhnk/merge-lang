@@ -1,7 +1,8 @@
 # Demo
 
-> [!IMPORTANT] Run this file from the root of this repository, else It'll not
-> work.
+<!-- deno-fmt-ignore -->
+> [!IMPORTANT]
+> Run this file from the root of this repository, else It'll not work.
 
 ## Pros
 
