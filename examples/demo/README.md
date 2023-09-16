@@ -1,7 +1,18 @@
 # Demo
 
-> [!NOTE]
-> This examples relies on system shell which is unrelaible.
+> [!IMPORTANT] Run this file from the root of this repository, else It'll not
+> work.
 
-> [!IMPORTANT]
-> Run this file from the root of this repository, else It'll not work.
+## Pros
+
+- Super easy to implement
+
+## Cons
+
+- Relies on system shell
+- Need to work with paths
+- Insanely slow (file io)
+
+## Conclusion
+
+Suitible for quick-demos.
