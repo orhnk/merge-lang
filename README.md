@@ -87,7 +87,7 @@ Merge takes another approach than the other solutions I mentioned.
 This is pro bably the most complex part of merge-lang. (Also the most innovative
 way) Look at the following example:
 
-````rust
+```rust
     #[python]
     use *;
 
