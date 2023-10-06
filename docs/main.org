@@ -89,9 +89,9 @@ fn main() {
 #+end_src
 
 *** File Structure
-Writing our own compiler for all languages that we support would be imposible. Because of this merge compiler will split your code into pieces that external languages can understand.
+Writing our own compiler for all languages that we support would be impossible. Because of this merge compiler will split your code into pieces that external languages can understand.
 
-With this tecnique you can integrate any programming language to merge-lang using [[API][It's API]]
+With this technique you can integrate any programming language to merge-lang using [[API][It's API]]
 
 
 *** Compile
@@ -116,3 +116,6 @@ merge package manager is pending right now.
 
 * API
 Merge-lang introduces an API to be able to use more and more languages with it.
+
+* NOTES
+forking crablang is one of my ideas so don't forget [[https://internals.rust-lang.org/t/forking-rust/7874/2][this]]
