@@ -1,0 +1,164 @@
+% Created 2023-09-16 Sat 06:45
+% Intended LaTeX compiler: pdflatex
+\documentclass[9pt,twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{utfeight}
+\date{\today}
+\title{Merge Programming Language}
+\hypersetup{
+ pdfauthor={utfeight},
+ pdftitle={Merge Programming Language},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 29.1 (Org mode 9.7)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Merge}
+\label{sec:orgbe42e6e}
+NOTE: Any of the features are not implemented yet. It's planned to do so.
+
+\subsection{TLDR}
+\label{sec:orga513f36}
+
+New approach to programming languages with generic multilang communication system,
+\textbf{allowing you code} with multiple programming languages in a project with a modern automated interface.
+
+\subsection{Manifest}
+\label{sec:org43502e5}
+Developing a project using multiple programming languages can easily become a complex task.
+although there are some Simpler solutions to this problem. They generally lack relaibility,
+performance, stability etc.
+
+This is a common situation that happens to all of us. For example:
+
+\begin{quote}
+X programming language has a library/framework that I cannot use with Y programming language.
+\end{quote}
+
+There are some solutions to this problem like:
+\begin{itemize}
+\item Transpilers: Automated X lang to Y lang converters. (just like .png to .jpeg but more complex)
+\item Rewrite: Rewriting the program in X lang. (e.g fish shell was written in C++, now it is getting rewritten in rust)
+\item FFI's (Foreign Function Interface)
+\item ABI's (Application Binary interface)
+\item Language Communication Protocols (e.g IPC, Shared Memory, Server)
+\item Wrappers: Custom libraries that wrap around the native language using Language Communication Protocols.
+\end{itemize}
+
+One of the few solution's that I mentioned above are hard to implement in general. Others are:
+
+\begin{itemize}
+\item Overall Transpilers: Could generate erroneous output (defective transpilers)
+\item Rewrites: Consumes a lot of time \& effort. Because of the human factor.
+\end{itemize}
+
+Because of these strenuous ways of implementing multi-lang interfaces We introdoce you merge-lang
+
+\subsubsection{merge-lang}
+\label{sec:org2ab91df}
+\begin{quote}
+A generic meta programming language that automates the process of combining programming languages in a project
+\end{quote}
+
+Merge takes another approach than the other solutions I mentioned.
+
+\begin{enumerate}
+\item Initial Algorithm
+\label{sec:orgb33f27b}
+\begin{itemize}
+\item Inference (understands the data communication points: more on that in the next section)
+\item Constructing the file structure (splitting code to it's pieces by the fewest whispers\footnote{data transmissions done between programming languages.})
+\item Compiling
+\item Scheduling Execution
+\item Runtime
+\end{itemize}
+\end{enumerate}
+
+
+\subsubsection{Inference}
+\label{sec:orge0cc3f8}
+This is probably the most complex part of merge-lang. (Also the most innovative way)
+Look at the following example:
+
+\begin{verbatim}
+#[python]
+use *;
+
+fn main() {
+    python::print("hello, world");
+
+    #[python]
+    {
+        a = "world"
+        print(f"hello {a}")
+    }
+
+    python!{
+        a = "hello"
+        print(f"{a} world!")
+        import a from b
+        a.hello()
+
+        def python_fn():
+            return 5
+    };
+
+    let val_py = python!(python_fn());
+    let val_py = python::python_fn();
+
+    println!("from rust: {val_py}");
+}
+\end{verbatim}
+
+\subsubsection{File Structure}
+\label{sec:org0830e2a}
+Writing our own compiler for all languages that we support would be imposible. Because of this merge compiler will split your code into pieces that external languages can understand.
+
+With this tecnique you can integrate any programming language to merge-lang using \hyperref[sec:org2a5f573]{It's API}
+
+
+\subsubsection{Compile}
+\label{sec:org1e433a3}
+Merge language compiles to rust code, then LLVM IR and ASM.
+
+\subsubsection{Scheduling Execution}
+\label{sec:org1f184bc}
+
+The dependencies need to evaluate in a way that every language can get the value they need at the runtime in a linear way. (Just like single vs multi-thread apps)
+
+Think this as a major surgery with you (the doctor) and Mr. Clumsy (the nurse)
+
+\begin{enumerate}
+\item If Mr. Clumsy gives you a cleaver instead of a lancet, the patient'd probably die. So Mr. Clumsy must give you the right tool to do the surgery. But It doesn't end here.
+\item If Mr. Clumsy'd give you a lancet one minute later (or before) than the time you need it. The patient'd die again because of haemorrhage. So timing is a must too!
+\end{enumerate}
+
+And don't forget that we made a preconception by saying that Mr. Clumsy will give us a thing.
+
+\subsubsection{Runtime}
+\label{sec:org7a79cb4}
+It's wanted to see a nice execution sequience between languages that you use.
+
+\subsection{Package Manager}
+\label{sec:orga2e00a9}
+merge package manager is pending right now.
+
+\section{API}
+\label{sec:org2a5f573}
+Merge-lang introduces an API to be able to use more and more languages with it.
+\end{document}
