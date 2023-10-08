@@ -1,0 +1,21 @@
+[package]
+name                 = "merge-test"
+version.workspace    = true
+authors.workspace    = true
+edition.workspace    = true
+description          = "merge programming language tests"
+homepage.workspace   = true
+repository.workspace = true
+keywords.workspace   = true
+license.workspace    = true
+autotests            = false
+publish              = false
+
+[[test]]
+name = "wgpu-tests"
+path = "tests/root.rs"
+
+[dependencies]
+proc-macro2.workspace = true
+quote.workspace       = true
+syn.workspace         = true
