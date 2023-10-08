@@ -1,12 +1,25 @@
 [workspace]
 members = [
   "core",
+  "merge-proc",
+  "tests",
   "examples/*",
 ]
 
-# [package]
-# name = "merge-lang"
-# version = "0.1.0"
-# edition = "2021"
-# authors = ["utfeight <utfeightt@gmail.com>"]
-# default-run = "merge"
+default-members = [
+  "core",
+]
+
+[workspace.package]
+edition    = "2021"
+keywords   = ["merge-lang"]
+license    = "MIT OR Apache-2.0"
+homepage   = "https://github.com/utfeight/merge-lang"
+repository = "https://github.com/utfeight/merge-lang"
+version    = "0.1.0"
+authors    = ["utfeight <utfeightt@gmail.com>"]
+
+[workspace.dependencies]
+proc-macro2 = "1.0.67"
+quote       = "1.0.33"
+syn         = "2.0.38"
