@@ -59,34 +59,53 @@ This is probably the most complex part of merge-lang. (Also the most innovative 
 Look at the following example:
 
 #+begin_src rust
-#[python]
-use *;
-
-fn main() {
-    python::print("hello, world");
-
-    #[python]
-    {
-        a = "world"
-        print(f"hello {a}")
-    }
-
-    python!{
-        a = "hello"
-        print(f"{a} world!")
-        import a from b
-        a.hello()
-
-        def python_fn():
-            return 5
-    };
-
-    let val_py = python!(python_fn());
-    let val_py = python::python_fn();
-
-    println!("from rust: {val_py}");
+let rust_int = rust! { // NOTE: This is mapped to a function in the compilation process
+    println!("------------ RUST ------------")
+    return 1;
+    println!("---------- END RUST ----------")
 }
+
+
+[rust_int] -> [python_int]
+let python_int = python! {
+    print("------------ PYTHON ------------")
+    return 1 + rust_int
+    print("---------- END PYTHON ----------")
+}
+
+// let foo = [rust_int] -> [python_int]
+// #[foo] + [some] -> [another] // Aliasing long signatures
 #+end_src
+
+# #+begin_src rust
+# #[python]
+# use *;
+
+# fn main() {
+#     python::print("hello, world");
+
+#     #[python]
+#     {
+#         a = "world"
+#         print(f"hello {a}")
+#     }
+
+#     python!{
+#         a = "hello"
+#         print(f"{a} world!")
+#         import a from b
+#         a.hello()
+
+#         def python_fn():
+#             return 5
+#     };
+
+#     let val_py = python!(python_fn());
+#     let val_py = python::python_fn();
+
+#     println!("from rust: {val_py}");
+# }
+# #+end_src
 
 *** File Structure
 Writing our own compiler for all languages that we support would be impossible. Because of this merge compiler will split your code into pieces that external languages can understand.
