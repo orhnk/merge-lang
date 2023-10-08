@@ -1,0 +1,8 @@
+{
+  {
+     "type": "process",
+     "label": "Cargo Nightly Run",
+     "group": "test",
+     "command": "cargo +nightly run",
+  }
+}
