@@ -1,68 +1,18 @@
 #![allow(warnings, unused)]
 
-mod prep;
+mod log;
 mod parser;
+mod prep;
 mod tokenizer;
+mod inline;
+mod task;
 
 use regex::Regex;
 
-use crate::prep::PreProcessor;
 use crate::parser::Parser;
-use crate::tokenizer::Lexer;
+use crate::prep::PreProcessor;
 use crate::tokenizer::Token;
-
-/// Converts String Literal into inline! token matcher
-/// returns: Regex Patterns
-macro_rules! keyword {
-    ($lit:literal) => {{
-        // (?s)\s*python!\((.*?)\)
-        concat!(r"(?s)\s*", $lit, r"!\((.*?)\)")
-    }};
-}
-
-#[allow(unused)]
-enum InLang {
-    C,
-    CSharp,
-    Cpp,
-    Cobol,
-    Carbon,
-    D,
-    Go,
-    Haskell,
-    Merge,
-    OCaml,
-    Python,
-    R,
-    Rust,
-    Racket,
-    V,
-}
-
-impl InLang {
-    // TODO: this is ambigious by the case size (upper - lower)
-    fn from(lang: &str) -> Option<Self> {
-        return match lang {
-            // TODO: Compile time manipulate this to lowercase
-            "c" => Some(Self::C),
-            "csharp" => Some(Self::CSharp),
-            "cpp" => Some(Self::Cpp),
-            "cobol" => Some(Self::Cobol),
-            "carbon" => Some(Self::Carbon),
-            "d" => Some(Self::D),
-            "go" => Some(Self::Go),
-            "haskell" => Some(Self::Haskell),
-            "merge" => Some(Self::Merge),
-            "ocaml" => Some(Self::OCaml),
-            "python" => Some(Self::Python),
-            "r" => Some(Self::R),
-            "rust" => Some(Self::Rust),
-            "racket" => Some(Self::Racket),
-            "v" => Some(Self::V),
-            _ => None,
-        };
-    }
-}
+use crate::tokenizer::Tokenizer;
 
 // The input text containing the Python code
 static CODE: &str = r#"
@@ -83,7 +33,7 @@ static CODE: &str = r#"
         #                          # You can use 1 as index
     )
     
-    cpp!(
+    cpp!( // This part of the code is not parsed intentionally
         #include<iostream>
         
         using namespace std;
@@ -104,30 +54,11 @@ static CODE: &str = r#"
 // with greediness disable regex engine seems to match:
 //
 // python!( <--------------------+
-//      print("hello world") <---+ Which leaves the paranthesis below urphan
+//      print("hello world") <---+ Which leaves the parenthesis below urphan
 // ) <-- unmatched
 //
 // So I must write my own parser.
 // Which is hard :(
-
-// Recursive Descent Parser for a Simple Arithmetic Expression Grammar
-
-// struct LexerOpts {
-//     inline: bool,
-//     foo: bool,
-//     baz: bool,
-//     some: bool,
-//     fizz: bool,
-//     buzz: bool,
-//     another: bool,
-//     eigth: bool,
-// }
-//
-// impl std::default::Default for LexerOpts {
-//     LexerOpts {
-//         inline: false,
-//     }
-// }
 
 fn main() {
     //     // Sample input tokens representing "2 * (3 + 4)"
@@ -149,7 +80,7 @@ fn main() {
     "
     .to_string();
 
-    let mut lexer = Lexer::new(rstr);
+    let mut lexer = Tokenizer::new(rstr);
     let tokens = lexer.tokenize();
     tokens.iter().for_each(|i| {
         if let Token::Invalid(ch) = i {
