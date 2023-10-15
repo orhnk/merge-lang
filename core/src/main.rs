@@ -110,14 +110,46 @@ rust! {
     println!("It's A me! mArio!");
     let scooped = "RUST STRING"
 }
+    //     WHY???
+    //     ![
+    //       //   rust = {
+    //             build = "hello world",
+    //         },
+    //     ]
+    //     ERR! (use unicode segmentation)
+    //     ![
+    //       ½   rust = {
+    //             build = "hello world",
+    //         },
+    //     ]
+    let rstr = r###"
+            ![
+                rust = {
+                    build = "hello world",
+                },
+            ]
 
-[scooped]
-c! {
-    printf("Hello, World!");
-    printf("%s", scooped);
-    char* scooped = "C STRING";
-}
-"#
+            # hello
+            ![main]
+            [one, two, three] -> [scooped]
+            rust! {
+                println!("It's A me! mArio!");
+                let scooped = "RUST STRING";
+                {
+                    println!("inside block");
+                }
+            }
+            +++
+
+            [scooped]
+            c! {
+                printf("Hello, World!");
+                {},
+                printf("%s", scooped);
+                char* scooped = "C STRING";
+            }
+
+        "###
     .to_string();
 
     let mut lexer = Tokenizer::new(rstr);
