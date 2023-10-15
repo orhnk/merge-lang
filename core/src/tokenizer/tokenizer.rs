@@ -1,6 +1,5 @@
-use crate::tokenizer::Token;
-// Define a struct to represent the parser.
-// Define a struct to represent the tokenizer.
+use crate::Token;
+// Define a struct to represent the lexer.
 #[derive(Debug, Eq, PartialEq)]
 pub struct Tokenizer {
     input: String,   // The input string
@@ -9,57 +8,39 @@ pub struct Tokenizer {
 
 #[allow(dead_code)]
 impl Tokenizer {
-    // Constructor for the tokenizer struct.
+    // Constructor for the Lexer struct.
     pub fn new(input: String) -> Self {
         Tokenizer { input, position: 0 }
     }
 
-    /// Moves the cursor to the next character.
+    // Helper function to advance the lexer's position.
     pub fn advance(&mut self) {
         self.position += 1;
     }
 
-    /// Getter for the current character.
-    pub fn get_cursor_char(&self) -> char {
-        // The ambiguidy is resolved by unwrap_or_else(|_| 0)
-        self.input.chars().nth(self.pos()).unwrap() // for the sake of lazy evaluation
-    }
-
-    /// Offset the cursor by `index` and return the character.
-    pub fn offset(&self, index: isize) -> char {
-        // The ambiguidy is resolved by unwrap_or_else(|_| 0)
-        self.input
-            .chars()
-            .nth(
-                (TryInto::<isize>::try_into(self.pos()).expect("usize & isize Overflow") as isize
-                    + index) as usize,
-            )
-            .unwrap()
-    }
-
-    /// Get the character at `index`.
-    pub fn get_exact(&self, index: usize) -> char {
+    pub fn get(&self, index: usize) -> char {
         // The ambiguidy is resolved by unwrap_or_else(|_| 0)
         self.input.chars().nth(index).unwrap() // for the sake of lazy evaluation
     }
 
-    /// Getter for the cursor position.
     pub fn pos(&self) -> usize {
         self.position
     }
 
-    /// Helper function to skip whitespace characters.
+    // Helper function to skip whitespace characters.
     pub fn skip_whitespace(&mut self) {
+        // TODO: rename this function according to whitespaces_and_comments which I'm too lazy to do now.
         while let Some(c) = self.peek() {
             if c.is_whitespace() {
                 self.advance();
+            } else if c == '/' && self.get(self.pos() + 1usize) == '/' {
             } else {
                 break;
             }
         }
     }
 
-    /// Helper function to peek at the current character.
+    // Helper function to peek at the current character.
     pub fn peek(&self) -> Option<char> {
         if self.position < self.input.len() {
             Some(self.input.chars().nth(self.position).unwrap()) // TODO: use unicode-segmentation
@@ -68,7 +49,7 @@ impl Tokenizer {
         }
     }
 
-    /// Helper function to consume the current character.
+    // Helper function to consume the current character.
     pub fn consume(&mut self) -> Option<char> {
         if self.position < self.input.len() {
             let c = self.input.chars().nth(self.position).unwrap();
