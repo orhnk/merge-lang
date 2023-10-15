@@ -1,6 +1,6 @@
-mod tokenizer;
 mod token;
+mod tokenizer;
 mod utils;
 
-pub use tokenizer::*;
 pub use token::*;
+pub use tokenizer::*;
