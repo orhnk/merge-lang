@@ -1,52 +1,51 @@
-pub struct PreProcessor {
-    input: String,
-    position: usize,
+use crate::tokenizer::Token;
+
+static COMMENT_STR: &str = "//";
+
+#[derive(Debug)]
+pub struct Preprocessor {
+    tokens: Vec<Token>,
+    opts: PreprocessorOpts,
 }
 
-impl PreProcessor {
-    fn new(input: String) -> Self {
-        PreProcessor {
-            input,
-            position: 0,
-        }
+#[derive(Debug)]
+pub struct PreprocessorOpts {
+    comments: bool,
+}
+
+impl Default for PreprocessorOpts {
+    fn default() -> Self {
+        Self { comments: true }
+    }
+}
+
+impl Preprocessor {
+    pub fn new(tokens: Vec<Token>, opts: PreprocessorOpts) -> Self {
+        Self { tokens, opts }
     }
 
-    fn advance(&mut self) {
-        self.position += 1;
-    }
+    pub fn preprocess(&mut self) -> Vec<Token> {
+        let mut tokens = Vec::new();
+        let mut comment = false;
 
-    fn get(&self) -> char {
-        // The ambiguidy is resolved by unwrap_or_else(|_| 0)
-        self.input.chars().nth(self.pos()).unwrap() // for the sake of lazy evaluation
-    }
-
-    fn index(&self, index: isize) -> char {
-        // The ambiguidy is resolved by unwrap_or_else(|_| 0)
-        self.input
-            .chars()
-            .nth((TryInto::<isize>::try_into(self.pos()).expect("usize & isize Overflow") as isize + index) as usize)
-            .unwrap()
-    }
-
-    fn get_exact(&self, index: usize) -> char {
-        // The ambiguidy is resolved by unwrap_or_else(|_| 0)
-        self.input.chars().nth(index).unwrap() // for the sake of lazy evaluation
-    }
-
-    fn pos(&self) -> usize {
-        self.position
-    }
-
-    fn check(&self, lit: &str) -> bool {
-        let mut index = 0isize;
-        let mut lit_chars = lit.chars();
-        for c in lit_chars {
-            if c != self.index(index) {
-                return false;
+        for token in self.tokens.iter() {
+            match token {
+                Token::Comment(_) => {
+                    if self.opts.comments {
+                        comment = true;
+                    }
+                }
+                Token::EndOfFile => {
+                    comment = false;
+                }
+                _ => {
+                    if !comment {
+                        tokens.push(token.clone());
+                    }
+                }
             }
-            index += 1;
         }
-        true
+
+        tokens
     }
 }
-
