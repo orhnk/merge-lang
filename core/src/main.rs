@@ -87,29 +87,18 @@
 //! Which is expected because of the philosophical difference between languages.
 //! (e.g) Python doesn't have types while Rust strictly does.
 
+mod inline;
 mod log;
 mod parser;
 mod prep;
-mod tokenizer;
-mod inline;
 mod task;
+mod tokenizer;
 
-use crate::tokenizer::{Tokenizer, Token};
+use task::Task;
+
+use crate::tokenizer::{Token, Tokenizer};
 
 fn main() {
-    let rstr = r#"
-![
-    rust = {
-        build = "hello world",
-    },
-]
-
-#[main]
-[one, two, three] -> [scooped]
-rust! {
-    println!("It's A me! mArio!");
-    let scooped = "RUST STRING"
-}
     //     WHY???
     //     ![
     //       //   rust = {
@@ -152,18 +141,72 @@ rust! {
         "###
     .to_string();
 
-    let mut lexer = Tokenizer::new(rstr);
+    let mut tokenizer = Tokenizer::new(rstr);
     let mut invalid_buf = Vec::new();
 
-    let tokens = lexer.tokenize();
+    let tokens = tokenizer.tokenize();
     tokens.iter().for_each(|i| {
         if let Token::Invalid(ch) = i {
             invalid_buf.push(ch);
         }
     });
 
+    let pp = prep::tasks::PreprocessorTask::new();
+    let mut task_manager = task::TaskManager::new();
+
+    task_manager.push(Box::new(pp));
+
+    task_manager.run_all();
+
     println!("{tokens:#?}");
+    println!("");
+    println!("Invalid Tokens: {:#?}", invalid_buf);
 
     // let mut parser = Parser::from(tokens);
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_tokenizer() {
+        let rstr = r###"
+            ![
+                rust = {
+                    build = "hello world",
+                },
+            ]
+
+            # hello
+            ![main]
+            [one, two, three] -> [scooped]
+            rust! {
+                println!("It's A me! mArio!");
+                let scooped = "RUST STRING";
+                {
+                    println!("inside block");
+                }
+            }
+
+            [scooped]
+            c! {
+                printf("Hello, World!");
+                {},
+                printf("%s", scooped);
+                char* scooped = "C STRING";
+            }
+
+        "###
+        .to_string();
+
+        let mut lexer = Tokenizer::new(rstr);
+
+        let tokens = lexer.tokenize();
+        tokens.iter().for_each(|i| {
+            if let Token::Invalid(ch) = i {
+                panic!("Invalid token: {}", ch);
+            }
+        });
+    }
+}
