@@ -33,7 +33,7 @@ enum InLang {
 impl InLang {
     // TODO: this is ambigious by the case size (upper - lower)
     fn from(lang: &str) -> Option<Self> {
-        return match lang {
+        match lang {
             // TODO: Compile time manipulate this to lowercase
             "c" => Some(Self::C),
             "csharp" => Some(Self::CSharp),
@@ -51,11 +51,11 @@ impl InLang {
             "racket" => Some(Self::Racket),
             "v" => Some(Self::V),
             _ => None,
-        };
+        }
     }
 
     fn to_str(&self) -> &str {
-        return match self {
+        match self {
             Self::C => "c",
             Self::CSharp => "csharp",
             Self::Cpp => "cpp",
@@ -71,6 +71,6 @@ impl InLang {
             Self::Rust => "rust",
             Self::Racket => "racket",
             Self::V => "v",
-        };
+        }
     }
 }
