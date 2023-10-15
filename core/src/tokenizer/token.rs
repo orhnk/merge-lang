@@ -10,13 +10,12 @@ pub enum Token {
     LeftRoundBracket,   // (
     RightBracket,       // )
     EqualSign,          // =
-    Quote,              // "
+    String(String),              // "
     Comma,              // ,
-    Hashtag,            // #
+    Comment(String),    // #
     Arrow,              // ->
     Code(String),       // TODO: Anything between `<lang>! { <CODE> }` braces
     EndOfFile,
     Identifier(String),
     Invalid(String),
 }
-
