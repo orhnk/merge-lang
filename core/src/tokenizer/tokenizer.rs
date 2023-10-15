@@ -221,19 +221,6 @@ impl Tokenizer {
                 // identifier from the most enhanced cluster (emojis, + signs etc.)
 
                 // Identifier check
-                let mut identifier = String::new();
-
-                while let Some(ch) = self.input.chars().nth(self.position) {
-                    if ch.is_alphabetic() || ch == '_' {
-                        identifier.push(ch);
-                        self.advance();
-                    } else {
-                        self.advance();
-                        return Token::Invalid(ch.to_string()); // TODO: Fix these dumb .to_string() calls
-                    }
-                    self.skip_whitespace();
-                }
-                return Token::Identifier(identifier);
             }
         }
     }
@@ -338,4 +325,3 @@ impl Tokenizer {
     //        }
     //    }
 }
-
