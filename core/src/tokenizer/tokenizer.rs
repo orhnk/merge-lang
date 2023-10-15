@@ -130,8 +130,15 @@ impl Tokenizer {
                     // Code block
                     self.advance();
                     let mut code = String::new();
+                    let mut curly_bracket_count = 1usize;
                     while let Some(ch) = self.peek() {
-                        if ch == '}' {
+                        // Match the code block
+                        if ch == '{' {
+                            curly_bracket_count += 1;
+                        } else if ch == '}' {
+                            curly_bracket_count -= 1;
+                        }
+                        if curly_bracket_count == 0 {
                             self.advance();
                             break;
                         } else {
