@@ -65,7 +65,7 @@ impl Tokenizer {
         let mut tokens = Vec::new();
         self.skip_whitespace(); // Skip initial whitespaces
 
-        while let Some(c) = self.peek() {
+        while let Some(_c) = self.peek() {
             tokens.push(self.check_all());
             self.skip_whitespace();
         }
@@ -131,7 +131,7 @@ impl Tokenizer {
                             self.advance();
                         }
                     }
-                    return Token::Code(code);
+                    Token::Code(code)
                 } else {
                     // Macro call
                     Token::ExclamationMark
