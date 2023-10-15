@@ -157,6 +157,22 @@ impl Tokenizer {
                 self.advance();
                 Token::EqualSign
             }
+            '#' => {
+                self.advance(); // TODO Add these as keywords not char tokens
+                let mut comment = String::new();
+
+                while let Some(ch) = self.peek() {
+                    if ch == '\n' {
+                        self.advance();
+                        break;
+                    } else {
+                        comment.push(ch);
+                        self.advance();
+                    }
+                }
+
+                Token::Comment(comment)
+            }
             '-' => {
                 self.advance(); // TODO Add these as keywords not char tokens
                 if let Some('>') = self.peek() {
