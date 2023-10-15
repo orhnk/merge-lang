@@ -1,15 +1,22 @@
 // Define the token type for our parser.
-#[derive(PartialEq, Debug, Clone, Copy)]
+#[derive(PartialEq, Debug, Clone)]
 #[allow(dead_code)]
 pub enum Token {
-    Number(f64),
-    Plus,
-    Minus,
-    Multiply,
-    Divide,
-    LeftParenthesis,
-    RightParenthesis,
+    ExclamationMark,    // !
+    LeftCurlyBracket,   // {
+    RightCurlyBracket,  // }
+    LeftSquareBracket,  // [
+    RightSquareBracket, // ]
+    LeftRoundBracket,   // (
+    RightBracket,       // )
+    EqualSign,          // =
+    Quote,              // "
+    Comma,              // ,
+    Hashtag,            // #
+    Arrow,              // ->
+    Code(String),       // TODO: Anything between `<lang>! { <CODE> }` braces
     EndOfFile,
-    Invalid(char),
+    Identifier(String),
+    Invalid(String),
 }
 
