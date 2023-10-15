@@ -80,33 +80,41 @@ impl Tokenizer {
         self.match_char_token(self.position)
     }
 
-    pub fn match_key_token(&mut self, index: usize) -> Option<Token> {
+    pub fn match_key_token(&mut self, _index: usize) -> Option<Token> {
         todo!()
     }
 
     pub fn consume_identifier_char(&mut self) -> Token {
         let c = self.input.chars().nth(self.position).unwrap();
+        self.advance();
         if c.is_alphabetic() || c == '_' {
             return Token::Identifier(c.to_string()); // FIXME: With better API
         }
-        return Token::Invalid(c.to_string()); // FIXME: With better API
+        Token::Invalid(c.to_string()) // FIXME: With better API
+    }
+
+    pub fn peek_identifier_char(&mut self) -> Token {
+        let c = self.input.chars().nth(self.position).unwrap();
+        if c.is_alphabetic() || c == '_' {
+            return Token::Identifier(c.to_string()); // FIXME: With better API
+        }
+        Token::Invalid(c.to_string()) // FIXME: With better API
     }
 
     /// Returns identifier under the cursor.
     /// Returns [`None`] if the identifier is not there
-    pub fn consume_identifier(&mut self, index: usize) -> Option<Token> {
-        let c = self.input.chars().nth(index).unwrap();
+    pub fn consume_identifier(&mut self) -> Token {
         let mut identifier = String::new();
 
-        while let Token::Identifier(ch) = self.consume_identifier_char() {
+        while let Token::Identifier(ch) = self.peek_identifier_char() {
             identifier.push_str(&ch); // FIXME: these are just chars that are pushed
             self.advance();
         }
 
         if identifier.is_empty() {
-            None
+            self.consume_identifier_char()
         } else {
-            Some(Token::Identifier(identifier))
+            Token::Identifier(identifier)
         }
     }
 
@@ -188,21 +196,22 @@ impl Tokenizer {
             }
             '"' => {
                 self.advance();
-                Token::Quote
-            }
-            '#' => {
-                self.advance();
-                Token::Hashtag
+                let mut string = String::new();
+                while let Some(ch) = self.peek() {
+                    if ch == '"' {
+                        self.advance();
+                        break;
+                    } else {
+                        string.push(ch);
+                        self.advance();
+                    }
+                }
+                Token::String(string)
             }
             _ => {
                 // Mapped to an Identifier
-                let identifier_or_invalid = self.consume_identifier(self.position);
-                if let Some(Token::Identifier(ref identifier)) = identifier_or_invalid {
-                    return identifier_or_invalid.unwrap();
-                } else {
-                    self.advance(); // TODO take these as keyword
-                    return Token::Invalid(c.to_string());
-                }
+                self.consume_identifier()
+
                 // if let Some(key_token) = self.match_key_token(self.position) {
                 //     // TODO
                 // }
