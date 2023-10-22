@@ -1,15 +1,17 @@
 use crate::Token;
+use bytestring::ByteString;
+
 // Define a struct to represent the lexer.
 #[derive(Debug, Eq, PartialEq)]
 pub struct Tokenizer {
-    input: String,   // The input string
+    input: ByteString,   // The input string
     position: usize, // Current position in the input string
 }
 
 #[allow(dead_code)]
 impl Tokenizer {
     // Constructor for the Lexer struct.
-    pub fn new(input: String) -> Self {
+    pub fn new(input: ByteString) -> Self {
         Tokenizer { input, position: 0 }
     }
 
