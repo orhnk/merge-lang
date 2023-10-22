@@ -1,10 +1,8 @@
 use crate::tokenizer::Token;
 
-static COMMENT_STR: &str = "//";
-
 #[derive(Debug)]
-pub struct Preprocessor {
-    tokens: Vec<Token>,
+pub struct Preprocessor<'a> {
+    tokens: &'a mut Vec<Token>,
     opts: PreprocessorOpts,
 }
 
@@ -19,33 +17,30 @@ impl Default for PreprocessorOpts {
     }
 }
 
-impl Preprocessor {
-    pub fn new(tokens: Vec<Token>, opts: PreprocessorOpts) -> Self {
+impl<'a> Preprocessor<'a> {
+    pub fn new(tokens: &'a mut Vec<Token>, opts: PreprocessorOpts) -> Self {
         Self { tokens, opts }
     }
 
-    pub fn preprocess(&mut self) -> Vec<Token> {
-        let mut tokens = Vec::new();
-        let mut comment = false;
+    /// Preprocess the tokens
+    ///
+    /// # Logic
+    ///
+    /// - Remove comments
+    pub fn preprocess(&mut self) {
+        self.remove_comments()
+    }
 
-        for token in self.tokens.iter() {
-            match token {
-                Token::Comment(_) => {
-                    if self.opts.comments {
-                        comment = true;
-                    }
-                }
-                Token::EndOfFile => {
-                    comment = false;
-                }
-                _ => {
-                    if !comment {
-                        tokens.push(token.clone());
-                    }
-                }
+    pub fn remove_comments(&mut self) {
+        let tokens = &mut self.tokens;
+        let mut i = 0;
+
+        while i < tokens.len() {
+            if let Token::Comment(_) = tokens[i] {
+                tokens.remove(i);
+            } else {
+                i += 1;
             }
         }
-
-        tokens
     }
 }
