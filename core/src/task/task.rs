@@ -2,10 +2,7 @@
 // Copyright © 2023 Merge. All Rights Reserved.
 
 pub trait Task {
-    fn new() -> Self
-    where
-        Self: Sized;
-    fn run(&self);
+    fn run(&mut self);
 }
 
 pub struct TaskManager {
@@ -17,7 +14,7 @@ impl TaskManager {
         Self { tasks: Vec::new() }
     }
 
-    pub fn pop(&mut self, _task: Box<dyn Task>) {
+    pub fn pop(&mut self) {
         self.tasks.pop();
     }
 
@@ -25,8 +22,8 @@ impl TaskManager {
         self.tasks.push(task);
     }
 
-    pub fn run_all(&self) {
-        for task in self.tasks.iter() {
+    pub fn run_all(&mut self) {
+        for task in self.tasks.iter_mut() {
             task.run();
         }
     }
