@@ -94,6 +94,8 @@ mod prep;
 mod task;
 mod tokenizer;
 
+use std::rc::Rc;
+
 use task::Task;
 
 use crate::tokenizer::{Token, Tokenizer};
@@ -111,6 +113,7 @@ fn main() {
     //             build = "hello world",
     //         },
     //     ]
+
     let rstr = r###"
             ![
                 rust = {
@@ -128,7 +131,6 @@ fn main() {
                     println!("inside block");
                 }
             }
-            +++
 
             [scooped]
             c! {
@@ -137,26 +139,23 @@ fn main() {
                 printf("%s", scooped);
                 char* scooped = "C STRING";
             }
-
+            # hello
         "###
     .to_string();
 
-    let mut tokenizer = Tokenizer::new(rstr);
+    let mut tokenizer = Tokenizer::new(rstr.into());
     let mut invalid_buf = Vec::new();
+    let mut tokens = tokenizer.tokenize();
 
-    let tokens = tokenizer.tokenize();
-    tokens.iter().for_each(|i| {
+    let tmp = tokens.clone();
+    tmp.iter().for_each(|i| {
         if let Token::Invalid(ch) = i {
             invalid_buf.push(ch);
         }
     });
 
-    let pp = prep::tasks::PreprocessorTask::new();
-    let mut task_manager = task::TaskManager::new();
-
-    task_manager.push(Box::new(pp));
-
-    task_manager.run_all();
+    let mut prep = prep::Preprocessor::new(&mut tokens, prep::PreprocessorOpts::default());
+    prep.preprocess();
 
     println!("{tokens:#?}");
     println!("");
@@ -200,12 +199,56 @@ mod tests {
         "###
         .to_string();
 
-        let mut lexer = Tokenizer::new(rstr);
+        let mut lexer = Tokenizer::new(rstr.into());
 
         let tokens = lexer.tokenize();
         tokens.iter().for_each(|i| {
             if let Token::Invalid(ch) = i {
                 panic!("Invalid token: {}", ch);
+            }
+        });
+    }
+
+    #[test]
+    fn test_prep_remove_comments() {
+        let rstr = r###"
+            ![
+                rust = {
+                    build = "hello world",
+                },
+            ]
+
+            # hello
+            ![main]
+            [one, two, three] -> [scooped]
+            rust! {
+                println!("It's A me! mArio!");
+                let scooped = "RUST STRING";
+                {
+                    println!("inside block");
+                }
+            }
+
+            [scooped]
+            c! {
+                printf("Hello, World!");
+                {},
+                printf("%s", scooped);
+                char* scooped = "C STRING";
+            }
+
+        "###
+        .to_string();
+
+        let mut lexer = Tokenizer::new(rstr.into());
+
+        let mut tokens = lexer.tokenize();
+        let mut prep = prep::Preprocessor::new(&mut tokens, prep::PreprocessorOpts::default());
+        prep.preprocess();
+
+        tokens.iter().for_each(|i| {
+            if let Token::Comment(ch) = i {
+                panic!("Found Comment: {}", ch);
             }
         });
     }
