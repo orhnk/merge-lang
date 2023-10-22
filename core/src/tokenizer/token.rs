@@ -2,15 +2,18 @@
 #[derive(PartialEq, Debug, Clone)]
 #[allow(dead_code)]
 pub enum Token {
-    ExclamationMark,    // !
-    LeftCurlyBracket,   // {
-    RightCurlyBracket,  // }
+    /// !
+    ExclamationMark,
+    /// {
+    LeftCurlyBracket,
+    /// }
+    RightCurlyBracket,
     LeftSquareBracket,  // [
     RightSquareBracket, // ]
     LeftRoundBracket,   // (
     RightBracket,       // )
     EqualSign,          // =
-    String(String),              // "
+    String(String),     // "<CONTENT>"
     Comma,              // ,
     Comment(String),    // #
     Arrow,              // ->
