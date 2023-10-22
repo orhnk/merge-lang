@@ -1,7 +1,7 @@
 [workspace]
 members = [
   "core",
-  "merge-proc",
+  "proc",
   "tests",
   "examples/*",
 ]
