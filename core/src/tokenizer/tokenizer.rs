@@ -149,14 +149,95 @@ impl Tokenizer {
                         }
                     }
                     Token::Code(code)
-                } else {
+                } else if let Some('[') = self.peek() {
                     // Macro call
+                    self.advance();
+                    let mut macro_call = String::new();
+                    let mut square_bracket_count = 1usize;
+                    while let Some(ch) = self.peek() {
+                        // Match the code block
+                        if ch == '[' {
+                            square_bracket_count += 1;
+                        } else if ch == ']' {
+                            square_bracket_count -= 1;
+                        }
+                        if square_bracket_count == 0 {
+                            self.advance();
+                            break;
+                        } else {
+                            macro_call.push(ch);
+                            self.advance();
+                        }
+                    }
+                    Token::Macro(macro_call)
+                } else {
                     Token::ExclamationMark
                 }
             }
             '[' => {
+                // [comma, separated, variables] -> [comma, separated, variables]
                 self.advance();
-                Token::LeftSquareBracket
+
+                let mut take_variables = Vec::<String>::new();
+                let mut send_var_buf = String::new();
+
+                while let Some(ch) = self.peek() {
+                    if ch == ']' {
+                        self.advance();
+                        if !send_var_buf.is_empty() {
+                            take_variables.push(send_var_buf);
+                        }
+                        // else {
+                        //     Token::Invalid(ch.to_string()) // Trailing comma
+                        // }
+                        break;
+                    } else if ch == ',' {
+                        take_variables.push(send_var_buf.clone());
+                        self.advance();
+                    } else {
+                        send_var_buf.push(ch);
+                        self.advance();
+                    }
+                }
+
+                self.skip_whitespace();
+
+                if self.rush("->") {
+                    self.advance();
+                    self.skip_whitespace();
+
+                    let mut send_variables = Vec::<String>::new();
+                    let mut send_var_buf = String::new();
+
+                    while let Some(ch) = self.peek() {
+                        if ch == ']' {
+                            self.advance();
+                            if !send_var_buf.is_empty() {
+                                send_variables.push(send_var_buf);
+                            }
+                            // else {
+                            //     Token::Invalid(ch.to_string()) // Trailing comma
+                            // }
+                            break;
+                        } else if ch == ',' {
+                            send_variables.push(send_var_buf.clone());
+                            self.advance();
+                        } else {
+                            send_var_buf.push(ch);
+                            self.advance();
+                        }
+                    }
+
+                    return Token::Bridge {
+                        take: Some(take_variables),
+                        send: Some(send_variables),
+                    };
+                }
+
+                Token::Bridge {
+                    take: Some(take_variables),
+                    send: None,
+                }
             }
             ']' => {
                 self.advance();
@@ -194,7 +275,38 @@ impl Tokenizer {
                 self.advance(); // TODO Add these as keywords not char tokens
                 if let Some('>') = self.peek() {
                     self.advance();
-                    Token::Arrow
+                    self.skip_whitespace();
+                    // -> [ <VARIALBES> ]
+                    //    ^^^^^^^^^^^^^^^-- Arrow by itself is invalid.
+                    //    |---------------- Variables are seperated by commas.
+                    let mut variables = Vec::<String>::new();
+                    let mut var_buf = String::new();
+
+                    if let Some('[') = self.peek() {
+                        self.advance();
+                        while let Some(ch) = self.peek() {
+                            if ch == ']' {
+                                self.advance();
+                                if !var_buf.is_empty() {
+                                    variables.push(var_buf);
+                                }
+                                // else {
+                                //     Token::Invalid(ch.to_string()) // Trailing comma
+                                // }
+                                break;
+                            } else if ch == ',' {
+                                variables.push(var_buf.clone()); // FIXME: clone <09-11-23, utfeight>
+                                self.advance();
+                            } else {
+                                var_buf.push(ch);
+                                self.advance();
+                            }
+                        }
+                    }
+                    Token::Bridge {
+                        take: None,
+                        send: Some(variables),
+                    }
                 } else {
                     Token::Invalid(c.to_string())
                 }
@@ -234,105 +346,6 @@ impl Tokenizer {
         }
     }
 
-    //    #[inline]
-    //    pub fn check_block(&mut self, c: char, s: &str) -> Token {
-    //                    match c {
-    //                '+' => {
-    //                    self.advance();
-    //                    tokens.push(Token::Plus);
-    //                }
-    //                '-' => {
-    //                    self.advance();
-    //                    tokens.push(Token::Minus);
-    //                }
-    //                '*' => {
-    //                    self.advance();
-    //                    tokens.push(Token::Multiply);
-    //                }
-    //                '/' => {
-    //                    self.advance();
-    //                    tokens.push(Token::Divide);
-    //                }
-    //                '(' => {
-    //                    self.advance();
-    //                    tokens.push(Token::LeftParenthesis);
-    //                }
-    //                ')' => {
-    //                    self.advance();
-    //                    tokens.push(Token::RightParenthesis);
-    //                }
-    //                '0'..='9' => {
-    //                    let mut num_str = String::new();
-    //                    while let Some(digit) = self.peek() {
-    //                        if digit.is_digit(10) || digit == '.' {
-    //                            num_str.push(digit);
-    //                            self.advance();
-    //                        } else {
-    //                            break;
-    //                        }
-    //                    }
-    //                    if let Ok(num) = num_str.parse::<f64>() {
-    //                        tokens.push(Token::Number(num));
-    //                    } else {
-    //                        tokens.push(Token::Invalid(c));
-    //                    }
-    //                }
-    //                _ => {
-    //                    self.advance(); // Skip invalid characters
-    //                    tokens.push(Token::Invalid(c));
-    //                }
-    //            }
-    //    }
-    //
-    //    #[inline]
-    //    pub fn parse_delimeter(&mut self, c: char) -> Token {
-    //        match c {
-    //            '+' => {
-    //                self.advance();
-    //                tokens.push(Token::Plus);
-    //            }
-    //            '-' => {
-    //                self.advance();
-    //                tokens.push(Token::Minus);
-    //            }
-    //            '*' => {
-    //                self.advance();
-    //                tokens.push(Token::Multiply);
-    //            }
-    //            '/' => {
-    //                self.advance();
-    //                tokens.push(Token::Divide);
-    //            }
-    //            '(' => {
-    //                self.advance();
-    //                tokens.push(Token::LeftParenthesis);
-    //            }
-    //            ')' => {
-    //                self.advance();
-    //                tokens.push(Token::RightParenthesis);
-    //            }
-    //            '0'..='9' => {
-    //                let mut num_str = String::new();
-    //                while let Some(digit) = self.peek() {
-    //                    if digit.is_digit(10) || digit == '.' {
-    //                        num_str.push(digit);
-    //                        self.advance();
-    //                    } else {
-    //                        break;
-    //                    }
-    //                }
-    //                if let Ok(num) = num_str.parse::<f64>() {
-    //                    tokens.push(Token::Number(num));
-    //                } else {
-    //                    tokens.push(Token::Invalid(c));
-    //                }
-    //            }
-    //            _ => {
-    //                self.advance(); // Skip invalid characters
-    //                tokens.push(Token::Invalid(c));
-    //            }
-    //        }
-    //    }
     /// Checks whether the string is present at the current position.
     /// Moves the cursor to the end of the string if it is present.
     /// Does not move the cursor if the string is not present.
