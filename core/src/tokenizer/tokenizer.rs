@@ -4,8 +4,8 @@ use bytestring::ByteString;
 // Define a struct to represent the lexer.
 #[derive(Debug, Eq, PartialEq)]
 pub struct Tokenizer {
-    input: ByteString,   // The input string
-    position: usize, // Current position in the input string
+    input: ByteString, // The input string
+    position: usize,   // Current position in the input string
 }
 
 #[allow(dead_code)]
