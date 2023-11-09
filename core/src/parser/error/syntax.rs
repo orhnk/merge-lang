@@ -1,5 +1,7 @@
 use thiserror::Error;
 
+use crate::tokenizer::Token;
+
 // Lexer + Parser Error
 #[derive(Error, Debug)]
 pub enum SyntaxError {
@@ -9,3 +11,7 @@ pub enum SyntaxError {
     IncompleteToken(String, String),
 }
 
+pub enum ParserError {
+    Syntax(SyntaxError),
+    UnexpectedToken(Token),
+}
