@@ -55,6 +55,7 @@ impl Parser {
         println!("Cursor Token: {:?}", cursor_token);
 
         match cursor_token {
+            Some(Token::EndOfFile) => Ok(()),
             Some(Token::LeftSquareBracket) => {
                 square_bracket_coun.push(Token::LeftSquareBracket);
                 self.advance();
