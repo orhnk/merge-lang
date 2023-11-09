@@ -16,14 +16,14 @@ impl Parser {
 
     // Entry point for the parser. Parses and evaluates an expression.
     pub fn parse(&mut self) -> Result<(), Vec<ParserError>> {
-        self.parse_config()
+        self.parse_macro()
         // ![
         //      <CONFIG OPTS>
         // ]
     }
 
-    pub fn parse_config(&mut self) -> Result<(), Vec<ParserError>> {
-        if let Some(Token::ExclamationMark) = self.peek() {
+    pub fn parse_macro(&mut self) -> Result<(), Vec<ParserError>> {
+        if let Some(Token::Macro(_)) = self.peek() {
             self.advance();
             self.parse_config_opts()?;
             Ok(())
