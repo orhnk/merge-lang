@@ -11,6 +11,7 @@ pub enum SyntaxError {
     IncompleteToken(String, String),
 }
 
+#[derive(Debug)]
 pub enum ParserError {
     Syntax(SyntaxError),
     UnexpectedToken(Token),
