@@ -56,10 +56,23 @@ impl Parser {
 
         match cursor_token {
             Some(Token::EndOfFile) => Ok(()),
+
+            Some(Token::Bridge { take, send }) => {
+                self.advance();
+                self.parse_code()?;
+                Ok(())
+            }
+
+            Some(Token::Code(_)) => {
+                self.advance();
+                self.parse_code()?;
+                Ok(())
+            }
+
             Some(Token::LeftSquareBracket) => {
                 square_bracket_coun.push(Token::LeftSquareBracket);
                 self.advance();
-                self.parse_config_opts()?;
+                self.parse_code()?;
                 Ok(())
             }
 
@@ -76,38 +89,39 @@ impl Parser {
             }
 
             Some(Token::Identifier(_)) => {
-                self.parse_config_opts()?;
+                self.advance();
+                self.parse_code()?;
                 Ok(())
             }
 
             Some(Token::String(s)) => {
                 println!("Config String: {}", s);
-                self.parse_config_opts()?;
+                self.parse_code()?;
                 Ok(())
             }
 
             Some(Token::EqualSign) => {
                 self.advance();
-                self.parse_config_opts()?;
+                self.parse_code()?;
                 Ok(())
             }
 
             Some(Token::LeftCurlyBracket) => {
                 self.advance();
-                self.parse_config_opts()?;
+                self.parse_code()?;
                 Ok(())
             }
 
             Some(Token::RightCurlyBracket) => {
                 self.advance();
-                self.parse_config_opts()?;
+                self.parse_code()?;
                 Ok(())
             }
 
             // Enforce comma separation
             Some(Token::Comma) => {
                 self.advance();
-                self.parse_config_opts()?;
+                self.parse_code()?;
                 Ok(())
             }
 
