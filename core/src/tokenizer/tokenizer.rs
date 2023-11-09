@@ -333,4 +333,18 @@ impl Tokenizer {
     //            }
     //        }
     //    }
+    /// Checks whether the string is present at the current position.
+    /// Moves the cursor to the end of the string if it is present.
+    /// Does not move the cursor if the string is not present.
+    /// Returns `true` if the string is present.
+    /// Returns `false` if the string is not present.
+    // TODO: CHECK THIS OUT
+    pub fn rush(&mut self, string: &str) -> bool {
+        if self.input[self.position..].starts_with(string) {
+            self.position += string.len();
+            true
+        } else {
+            false
+        }
+    }
 }
