@@ -18,6 +18,21 @@ pub enum Token {
     Comment(String),    // #
     Arrow,              // ->
     Code(String),       // TODO: Anything between `<lang>! { <CODE> }` braces
+    LeftSquareBracket,
+    RightSquareBracket,
+    LeftRoundBracket,
+    RightBracket,
+    EqualSign,
+    String(String),
+    Comma,
+    Comment(String),
+    Arrow,
+    Code(String),
+    Macro(String),
+    Bridge {
+        take: Option<Vec<String>>,
+        send: Option<Vec<String>>,
+    },
     EndOfFile,
     Identifier(String),
     Invalid(String),
