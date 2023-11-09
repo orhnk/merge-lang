@@ -8,27 +8,29 @@ pub enum Token {
     LeftCurlyBracket,
     /// }
     RightCurlyBracket,
-    LeftSquareBracket,  // [
-    RightSquareBracket, // ]
-    LeftRoundBracket,   // (
-    RightBracket,       // )
-    EqualSign,          // =
-    String(String),     // "<CONTENT>"
-    Comma,              // ,
-    Comment(String),    // #
-    Arrow,              // ->
-    Code(String),       // TODO: Anything between `<lang>! { <CODE> }` braces
+    /// [
     LeftSquareBracket,
+    /// ]
     RightSquareBracket,
+    /// (
     LeftRoundBracket,
+    /// )
     RightBracket,
+    /// =
     EqualSign,
+    /// "<STRING>"
     String(String),
+    /// ,
     Comma,
+    /// #
     Comment(String),
+    /// ->
     Arrow,
+    /// <lang>! { <CODE> }
     Code(String),
+    /// ![ <MACRO> ]
     Macro(String),
+    /// [one, two, three] -> [four, five, six]
     Bridge {
         take: Option<Vec<String>>,
         send: Option<Vec<String>>,
