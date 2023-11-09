@@ -115,10 +115,22 @@ impl Parser {
                 self.parse_code()?;
                 Ok(())
             }
-            
-            _ => Err(vec![ParserError::UnexpectedToken({
-                cursor_token.expect("Unexpected Token").clone() // FIXME: clone
-            })]),
+
+            Some(Token::Macro(_)) => {
+                self.advance();
+                self.parse_code()?;
+                Ok(())
+            }
+
+            _ => {
+                println!(
+                    "Unexpected Token: {:?}",
+                    cursor_token.expect("Unexpected Token")
+                );
+                Err(vec![ParserError::UnexpectedToken({
+                    cursor_token.expect("Unexpected Token").clone() // FIXME: clone
+                })])
+            }
         }
     }
 
