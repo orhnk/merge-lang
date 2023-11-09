@@ -1,49 +1,22 @@
-use std::{
-    fs::File,
-    io::{self, Write},
-    process::Command,
-};
-
-#[derive(Debug)]
-struct Pipe<'a> {
-    data: &'a str,
-    ptr: File,
+[var]
+python! {
+    print(var)
 }
 
-impl<'a> Pipe<'a> {
-    fn new(data: &'a str) -> std::io::Result<Self> {
-        Ok(Pipe {
-            data,
-            ptr: File::create("examples/demo/src/pipe.json")?,
-        })
-    }
-
-    fn send(&mut self) -> io::Result<usize> {
-        Ok(self.ptr.write(self.data.as_bytes())?)
+[one, two, three] -> [scooped]
+rust! {
+    println!("It's A me! mArio!");
+    let scooped = "RUST STRING";
+    {
+        println!("inside block");
     }
 }
 
-fn main() -> io::Result<()> {
-    println!("--------------- RUST ---------------");
-    let mut data = Pipe::new(
-        r#"
-{
-    "data": "(main.rs) Sent from rust."
+[scooped]
+c! {
+    printf("Hello, World!");
+    {},
+    printf("%s", scooped);
+    char* scooped = "C STRING";
 }
-"#,
-    )?;
 
-    println!("From Rust: {:#?}", data);
-    println!("Sending...");
-    data.send()?;
-    println!("Sent!");
-
-    Command::new("python")
-        .arg("examples/demo/src/pipe.py")
-        .spawn()
-        .expect("Couldn't run python. Make Sure you've installed it.");
-
-    println!("------------- END RUST -------------");
-    println!();
-    Ok(())
-}
