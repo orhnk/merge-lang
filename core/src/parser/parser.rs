@@ -25,7 +25,7 @@ impl Parser {
     pub fn parse_macro(&mut self) -> Result<(), Vec<ParserError>> {
         if let Some(Token::Macro(_)) = self.peek() {
             self.advance();
-            self.parse_config_opts()?;
+            self.parse_code()?;
             Ok(())
         } else {
             Err(vec![ParserError::UnexpectedToken(Token::ExclamationMark)])
@@ -40,7 +40,7 @@ impl Parser {
     ///        build = "hello world",
     ///     },
     /// ]
-    pub fn parse_config_opts(&mut self) -> Result<(), Vec<ParserError>> {
+    pub fn parse_code(&mut self) -> Result<(), Vec<ParserError>> {
         // ![
         //     rust = {
         //         build = "hello world",
