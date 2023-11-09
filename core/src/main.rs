@@ -165,7 +165,7 @@ fn main() {
     println!("Invalid Tokens: {:#?}", invalid_buf);
 
     let mut parser = Parser::new(tokens);
-    assert!(parser.parse().is_ok());
+    println!("{:#?}", parser.parse());
 }
 
 #[cfg(test)]
