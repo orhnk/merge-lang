@@ -98,7 +98,10 @@ use std::rc::Rc;
 
 use task::Task;
 
-use crate::tokenizer::{Token, Tokenizer};
+use crate::{
+    parser::Parser,
+    tokenizer::{Token, Tokenizer},
+};
 
 fn main() {
     //     WHY???
@@ -121,9 +124,8 @@ fn main() {
                 },
             ]
 
-            # hello
             ![main]
-            [one, two, three] -> [scooped]
+            -> [scooped]
             rust! {
                 println!("It's A me! mArio!");
                 let scooped = "RUST STRING";
@@ -139,6 +141,7 @@ fn main() {
                 printf("%s", scooped);
                 char* scooped = "C STRING";
             }
+
             # hello
         "###
     .to_string();
@@ -147,7 +150,7 @@ fn main() {
     let mut invalid_buf = Vec::new();
     let mut tokens = tokenizer.tokenize();
 
-    let tmp = tokens.clone();
+    let tmp = tokens.clone(); // FIXME: clone
     tmp.iter().for_each(|i| {
         if let Token::Invalid(ch) = i {
             invalid_buf.push(ch);
@@ -161,7 +164,8 @@ fn main() {
     println!("");
     println!("Invalid Tokens: {:#?}", invalid_buf);
 
-    // let mut parser = Parser::from(tokens);
+    let mut parser = Parser::new(tokens);
+    assert!(parser.parse().is_ok());
 }
 
 #[cfg(test)]
@@ -177,9 +181,8 @@ mod tests {
                 },
             ]
 
-            # hello
             ![main]
-            [one, two, three] -> [scooped]
+            -> [scooped]
             rust! {
                 println!("It's A me! mArio!");
                 let scooped = "RUST STRING";
@@ -195,7 +198,6 @@ mod tests {
                 printf("%s", scooped);
                 char* scooped = "C STRING";
             }
-
         "###
         .to_string();
 
@@ -241,10 +243,14 @@ mod tests {
         .to_string();
 
         let mut lexer = Tokenizer::new(rstr.into());
-
         let mut tokens = lexer.tokenize();
         let mut prep = prep::Preprocessor::new(&mut tokens, prep::PreprocessorOpts::default());
+
         prep.preprocess();
+
+        let mut parser = parser::Parser::new(tokens);
+
+        parser.parse();
 
         tokens.iter().for_each(|i| {
             if let Token::Comment(ch) = i {
