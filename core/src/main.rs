@@ -64,12 +64,12 @@
 //!     // implicitly returns the variables
 //! }
 //!
-//! //_.-' DUMP TO C '-._      _.-' SCOOP '-._
-//! [first, second, third] -> [scooped_from_c]
+//! //_.-' DUMP TO C '-._     _.-' SCOOP FROM '-._
+//! [first, second, third] -> [var_scooped_from_c]
 //! c! {
 //!     printf("[C]: STARTED");
 //!     printf("%d, %d, %d", first, second, third); // 1, 2, 3
-//!     int scooped_from_c = 1;
+//!     int var_scooped_from_c = 1;
 //!     printf("[C]: ENDED");
 //! }
 //!
