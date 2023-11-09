@@ -111,7 +111,8 @@ impl Parser {
             }
 
             Some(Token::Identifier(_)) => {
-                self.parse_config_opts()?;
+                self.advance();
+                self.parse_code()?;
                 Ok(())
             }
             
