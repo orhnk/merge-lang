@@ -177,8 +177,16 @@ mod tests {
         let rstr = r###"
             ![
                 rust = {
-                    build = "hello world",
+                    dir = "rust/",
+                    config = "Cargo.toml"
+                    build = "cargo run --release",
                 },
+
+                c = {
+                    dir = "c/",
+                    config = "CMakeLists.txt"
+                    build = "cmake -B build/ -DRELEASE=true; make",
+                }
             ]
 
             ![main]
