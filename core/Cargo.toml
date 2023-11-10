@@ -1,7 +1,16 @@
 [package]
-name = "core"
-version = "0.1.0"
+name = "merge-lang"
+version = "0.1.2"
 edition = "2021"
+description = "Merge Programming Language"
+authors = ["Orhan KARAMAN <utfeightt@gmail.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/utfeight/merge"
+# readme = "README.md"
+keywords = ["merge", "programming", "language", "compiler", "merge-lang" ]
+categories = ["programming-languages", "compilers"]
+homepage = "https://github.com/utfeight/merge"
+# documentation = "https://docs.rs/merge-lang"
 
 # TODO
 # [[test]]
