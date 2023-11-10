@@ -1,0 +1,10 @@
+#+title: TUBITAK
+
+* NOTES
+This file was written in 10.11.2023 and the "will" maybe "done" now.
+
+* What is TUBITAK?
+ TUBITAK stands for /Turkish Scientific and Technologic Research Council/[fn:: Türkiye Bilimsel ve Teknolojik Araştırma Kurumu]
+
+* How is this about Merge?
+We will present the Merge Project to TUBITAK (2204-A National Project Competition)

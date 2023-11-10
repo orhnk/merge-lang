@@ -1,0 +1,9 @@
+#+title: Merge
+
+Çoklu Yazılım Dili Uygulamaları'nı otomativize eden üst seviye bir programlama dili.
+
+* Problem
+Yeni bir yazılım dili geliştirmek için güçlü bir sebebe ihtiyacınız olmalı. Altından kalkması zor bir işe kalkışmak ve belki de binlerce elektronik cihazın bir parçası olacak bir yazılımı geliştirmek arkasında güçlü bir neden barındırmak zorunda.
+
+Öncelikle Merge projesini geliştirmemizin arkasında yatan sebep, _böyle bir programlama dilinin olmamasıydı_
+Merge'nin sahip olduğu IPC automation[fn:: IPC (Inter Process Communication)] (automated multi-lang communication interface) fikri daha önce başka bir programlama dilinde görülmemiştir
