@@ -1,8 +1,6 @@
-% Created 2023-09-16 Sat 06:45
-% Intended LaTeX compiler: pdflatex
+% Created 2023-11-26 Paz 17:35
+% Intended LaTeX compiler: lualatex
 \documentclass[9pt,twocolumn]{article}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{longtable}
 \usepackage{wrapfig}
@@ -20,26 +18,26 @@
  pdftitle={Merge Programming Language},
  pdfkeywords={},
  pdfsubject={},
- pdfcreator={Emacs 29.1 (Org mode 9.7)}, 
+ pdfcreator={Emacs 28.2 (Org mode 9.7)}, 
  pdflang={English}}
 \begin{document}
 
 \maketitle
 \tableofcontents
 
-
+\begin{center}
+\includesvg[width=.9\linewidth]{./../logo/logo-inkscp}
+\end{center}
 \section{Merge}
-\label{sec:orgbe42e6e}
+\label{sec:org9832fdb}
 NOTE: Any of the features are not implemented yet. It's planned to do so.
-
 \subsection{TLDR}
-\label{sec:orga513f36}
+\label{sec:org289637c}
 
 New approach to programming languages with generic multilang communication system,
 \textbf{allowing you code} with multiple programming languages in a project with a modern automated interface.
-
 \subsection{Manifest}
-\label{sec:org43502e5}
+\label{sec:orgc5a4a02}
 Developing a project using multiple programming languages can easily become a complex task.
 although there are some Simpler solutions to this problem. They generally lack relaibility,
 performance, stability etc.
@@ -68,18 +66,16 @@ One of the few solution's that I mentioned above are hard to implement in genera
 \end{itemize}
 
 Because of these strenuous ways of implementing multi-lang interfaces We introdoce you merge-lang
-
 \subsubsection{merge-lang}
-\label{sec:org2ab91df}
+\label{sec:orge984264}
 \begin{quote}
 A generic meta programming language that automates the process of combining programming languages in a project
 \end{quote}
 
 Merge takes another approach than the other solutions I mentioned.
-
 \begin{enumerate}
 \item Initial Algorithm
-\label{sec:orgb33f27b}
+\label{sec:org4af1c66}
 \begin{itemize}
 \item Inference (understands the data communication points: more on that in the next section)
 \item Constructing the file structure (splitting code to it's pieces by the fewest whispers\footnote{data transmissions done between programming languages.})
@@ -88,56 +84,39 @@ Merge takes another approach than the other solutions I mentioned.
 \item Runtime
 \end{itemize}
 \end{enumerate}
-
-
 \subsubsection{Inference}
-\label{sec:orge0cc3f8}
+\label{sec:orgc3d87a0}
 This is probably the most complex part of merge-lang. (Also the most innovative way)
 Look at the following example:
 
 \begin{verbatim}
-#[python]
-use *;
-
-fn main() {
-    python::print("hello, world");
-
-    #[python]
-    {
-        a = "world"
-        print(f"hello {a}")
-    }
-
-    python!{
-        a = "hello"
-        print(f"{a} world!")
-        import a from b
-        a.hello()
-
-        def python_fn():
-            return 5
-    };
-
-    let val_py = python!(python_fn());
-    let val_py = python::python_fn();
-
-    println!("from rust: {val_py}");
+let rust_int = rust! { // NOTE: This is mapped to a function in the compilation process
+    println!("------------ RUST ------------")
+    return 1;
+    println!("---------- END RUST ----------")
 }
+
+
+[rust_int] -> [python_int]
+let python_int = python! {
+    print("------------ PYTHON ------------")
+    return 1 + rust_int
+    print("---------- END PYTHON ----------")
+}
+
+// let foo = [rust_int] -> [python_int]
+// #[foo] + [some] -> [another] // Aliasing long signatures
 \end{verbatim}
-
 \subsubsection{File Structure}
-\label{sec:org0830e2a}
-Writing our own compiler for all languages that we support would be imposible. Because of this merge compiler will split your code into pieces that external languages can understand.
+\label{sec:org44e1db5}
+Writing our own compiler for all languages that we support would be impossible. Because of this merge compiler will split your code into pieces that external languages can understand.
 
-With this tecnique you can integrate any programming language to merge-lang using \hyperref[sec:org2a5f573]{It's API}
-
-
+With this technique you can integrate any programming language to merge-lang using \hyperref[sec:orgb1a1dbd]{It's API}
 \subsubsection{Compile}
-\label{sec:org1e433a3}
+\label{sec:orgac8549e}
 Merge language compiles to rust code, then LLVM IR and ASM.
-
 \subsubsection{Scheduling Execution}
-\label{sec:org1f184bc}
+\label{sec:org609feaa}
 
 The dependencies need to evaluate in a way that every language can get the value they need at the runtime in a linear way. (Just like single vs multi-thread apps)
 
@@ -149,16 +128,16 @@ Think this as a major surgery with you (the doctor) and Mr. Clumsy (the nurse)
 \end{enumerate}
 
 And don't forget that we made a preconception by saying that Mr. Clumsy will give us a thing.
-
 \subsubsection{Runtime}
-\label{sec:org7a79cb4}
+\label{sec:org486ef07}
 It's wanted to see a nice execution sequience between languages that you use.
-
 \subsection{Package Manager}
-\label{sec:orga2e00a9}
+\label{sec:orgeb787ab}
 merge package manager is pending right now.
-
 \section{API}
-\label{sec:org2a5f573}
+\label{sec:orgb1a1dbd}
 Merge-lang introduces an API to be able to use more and more languages with it.
+\section{NOTES}
+\label{sec:org8ce161b}
+forking crablang is one of my ideas so don't forget \href{https://internals.rust-lang.org/t/forking-rust/7874/2}{this}
 \end{document}

@@ -1,0 +1,8 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+X-WR-CALNAME:main
+PRODID:-//utfeight//Emacs with Org mode//EN
+X-WR-TIMEZONE:+03
+X-WR-CALDESC:Merge Programming Language
+CALSCALE:GREGORIAN
+END:VCALENDAR

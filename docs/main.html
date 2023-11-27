@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-09-16 Sat 06:49 -->
+<!-- 2023-11-26 Paz 17:42 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Merge Programming Language</title>
@@ -201,37 +201,41 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgb3a9def">1. Merge</a>
+<li><a href="#org079afae">1. Merge</a>
 <ul>
-<li><a href="#org5486abc">1.1. TLDR</a></li>
-<li><a href="#org3260bdc">1.2. Manifest</a>
+<li><a href="#org0754d81">1.1. TLDR</a></li>
+<li><a href="#org83657d4">1.2. Manifest</a>
 <ul>
-<li><a href="#orga93e995">1.2.1. merge-lang</a></li>
-<li><a href="#org11f2cbe">1.2.2. Inference</a></li>
-<li><a href="#orgd0139f3">1.2.3. File Structure</a></li>
-<li><a href="#org30e9ae4">1.2.4. Compile</a></li>
-<li><a href="#org33ca4b3">1.2.5. Scheduling Execution</a></li>
-<li><a href="#org5a917a6">1.2.6. Runtime</a></li>
+<li><a href="#org30cd2d6">1.2.1. merge-lang</a></li>
+<li><a href="#org37df41b">1.2.2. Inference</a></li>
+<li><a href="#orgf866e89">1.2.3. File Structure</a></li>
+<li><a href="#orge80999e">1.2.4. Compile</a></li>
+<li><a href="#org43eda01">1.2.5. Scheduling Execution</a></li>
+<li><a href="#org87f7c05">1.2.6. Runtime</a></li>
 </ul>
 </li>
-<li><a href="#org4a0627f">1.3. Package Manager</a></li>
+<li><a href="#org014ab24">1.3. Package Manager</a></li>
 </ul>
 </li>
-<li><a href="#orgfb2ad55">2. API</a></li>
+<li><a href="#orga0cb12d">2. API</a></li>
+<li><a href="#orgce976cc">3. NOTES</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgb3a9def" class="outline-2">
-<h2 id="orgb3a9def"><span class="section-number-2">1.</span> Merge</h2>
+<div id="orgd0a0b65" class="figure">
+<p><img src="./../logo/logo-inkscp.svg" alt="logo-inkscp.svg" class="org-svg" />
+</p>
+</div>
+<div id="outline-container-org079afae" class="outline-2">
+<h2 id="org079afae"><span class="section-number-2">1.</span> Merge</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 NOTE: Any of the features are not implemented yet. It&rsquo;s planned to do so.
 </p>
 </div>
-
-<div id="outline-container-org5486abc" class="outline-3">
-<h3 id="org5486abc"><span class="section-number-3">1.1.</span> TLDR</h3>
+<div id="outline-container-org0754d81" class="outline-3">
+<h3 id="org0754d81"><span class="section-number-3">1.1.</span> TLDR</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 New approach to programming languages with generic multilang communication system,
@@ -239,9 +243,8 @@ New approach to programming languages with generic multilang communication syste
 </p>
 </div>
 </div>
-
-<div id="outline-container-org3260bdc" class="outline-3">
-<h3 id="org3260bdc"><span class="section-number-3">1.2.</span> Manifest</h3>
+<div id="outline-container-org83657d4" class="outline-3">
+<h3 id="org83657d4"><span class="section-number-3">1.2.</span> Manifest</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 Developing a project using multiple programming languages can easily become a complex task.
@@ -284,9 +287,8 @@ One of the few solution&rsquo;s that I mentioned above are hard to implement in 
 Because of these strenuous ways of implementing multi-lang interfaces We introdoce you merge-lang
 </p>
 </div>
-
-<div id="outline-container-orga93e995" class="outline-4">
-<h4 id="orga93e995"><span class="section-number-4">1.2.1.</span> merge-lang</h4>
+<div id="outline-container-org30cd2d6" class="outline-4">
+<h4 id="org30cd2d6"><span class="section-number-4">1.2.1.</span> merge-lang</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <blockquote>
 <p>
@@ -298,9 +300,8 @@ A generic meta programming language that automates the process of combining prog
 Merge takes another approach than the other solutions I mentioned.
 </p>
 </div>
-
 <ol class="org-ol">
-<li><a id="org7e07086"></a>Initial Algorithm<br />
+<li><a id="orgfd57fc9"></a>Initial Algorithm<br />
 <div class="outline-text-5" id="text-1-2-1-1">
 <ul class="org-ul">
 <li>Inference (understands the data communication points: more on that in the next section)</li>
@@ -313,10 +314,8 @@ Merge takes another approach than the other solutions I mentioned.
 </li>
 </ol>
 </div>
-
-
-<div id="outline-container-org11f2cbe" class="outline-4">
-<h4 id="org11f2cbe"><span class="section-number-4">1.2.2.</span> Inference</h4>
+<div id="outline-container-org37df41b" class="outline-4">
+<h4 id="org37df41b"><span class="section-number-4">1.2.2.</span> Inference</h4>
 <div class="outline-text-4" id="text-1-2-2">
 <p>
 This is probably the most complex part of merge-lang. (Also the most innovative way)
@@ -324,59 +323,48 @@ Look at the following example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-rust"><span style="color: #ebdbb2; font-weight: bold;">#</span><span style="color: #fe8019; font-weight: bold;">[</span><span style="color: #ebdbb2; font-weight: bold;">python</span><span style="color: #fe8019; font-weight: bold;">]</span>
-<span style="color: #fb4934;">use</span> *;
-
-<span style="color: #fb4934;">fn</span> <span style="color: #b8bb26;">main</span><span style="color: #fe8019;">()</span> <span style="color: #fe8019;">{</span>
-    <span style="color: #d3869b;">python</span>::print<span style="color: #cc241d;">(</span><span style="color: #b8bb26;">"hello, world"</span><span style="color: #cc241d;">)</span>;
-
-    <span style="color: #ebdbb2; font-weight: bold;">#</span><span style="color: #cc241d; font-weight: bold;">[</span><span style="color: #ebdbb2; font-weight: bold;">python</span><span style="color: #cc241d; font-weight: bold;">]</span>
-    <span style="color: #cc241d;">{</span>
-        a = <span style="color: #b8bb26;">"world"</span>
-        print<span style="color: #b8bb26;">(</span>f<span style="color: #b8bb26;">"hello {a}"</span><span style="color: #b8bb26;">)</span>
-    <span style="color: #cc241d;">}</span>
-
-    <span style="color: #ebdbb2; font-weight: bold;">python!</span><span style="color: #cc241d;">{</span>
-        a = <span style="color: #b8bb26;">"hello"</span>
-        print<span style="color: #b8bb26;">(</span>f<span style="color: #b8bb26;">"{a} world!"</span><span style="color: #b8bb26;">)</span>
-        import a from b
-        a.hello<span style="color: #b8bb26;">()</span>
-
-        def python_fn<span style="color: #b8bb26;">()</span>:
-            <span style="color: #fb4934;">return</span> <span style="color: #d3869b; font-weight: bold;">5</span>
-    <span style="color: #cc241d;">}</span>;
-
-    <span style="color: #fb4934;">let</span> <span style="color: #83a598;">val_py</span> = <span style="color: #ebdbb2; font-weight: bold;">python!</span><span style="color: #cc241d;">(</span>python_fn<span style="color: #b8bb26;">()</span><span style="color: #cc241d;">)</span>;
-    <span style="color: #fb4934;">let</span> <span style="color: #83a598;">val_py</span> = <span style="color: #d3869b;">python</span>::python_fn<span style="color: #cc241d;">()</span>;
-
-    <span style="color: #fe8019;">println!</span><span style="color: #cc241d;">(</span><span style="color: #b8bb26;">"from rust: </span><span style="color: #b8bb26; font-style: italic;">{val_py}</span><span style="color: #b8bb26;">"</span><span style="color: #cc241d;">)</span>;
+<pre class="src src-rust"><span style="color: #fb4934;">let</span> <span style="color: #83a598;">rust_int</span> = <span style="color: #ebdbb2; font-weight: bold;">rust!</span> <span style="color: #fe8019;">{</span> <span style="color: #928374;">// </span><span style="color: #b8bb26; font-weight: bold;">NOTE:</span><span style="color: #928374;"> This is mapped to a function in the compilation process</span>
+    <span style="color: #fe8019;">println!</span><span style="color: #cc241d;">(</span><span style="color: #b8bb26;">"------------ RUST ------------"</span><span style="color: #cc241d;">)</span>
+    <span style="color: #fb4934;">return</span> <span style="color: #d3869b; font-weight: bold;">1</span>;
+    <span style="color: #fe8019;">println!</span><span style="color: #cc241d;">(</span><span style="color: #b8bb26;">"---------- END RUST ----------"</span><span style="color: #cc241d;">)</span>
 <span style="color: #fe8019;">}</span>
+
+
+<span style="color: #fe8019;">[</span>rust_int<span style="color: #fe8019;">]</span> -&gt; <span style="color: #fe8019;">[</span>python_int<span style="color: #fe8019;">]</span>
+<span style="color: #fb4934;">let</span> <span style="color: #83a598;">python_int</span> = <span style="color: #ebdbb2; font-weight: bold;">python!</span> <span style="color: #fe8019;">{</span>
+    print<span style="color: #cc241d;">(</span><span style="color: #b8bb26;">"------------ PYTHON ------------"</span><span style="color: #cc241d;">)</span>
+    <span style="color: #fb4934;">return</span> <span style="color: #d3869b; font-weight: bold;">1</span> + rust_int
+    print<span style="color: #cc241d;">(</span><span style="color: #b8bb26;">"---------- END PYTHON ----------"</span><span style="color: #cc241d;">)</span>
+<span style="color: #fe8019;">}</span>
+
+<span style="color: #928374;">// </span><span style="color: #928374;">let foo = [rust_int] -&gt; [python_int]</span>
+<span style="color: #928374;">// </span><span style="color: #928374;">#[foo] + [some] -&gt; [another] // Aliasing long signatures</span>
 </pre>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgd0139f3" class="outline-4">
-<h4 id="orgd0139f3"><span class="section-number-4">1.2.3.</span> File Structure</h4>
+<div id="outline-container-orgf866e89" class="outline-4">
+<h4 id="orgf866e89"><span class="section-number-4">1.2.3.</span> File Structure</h4>
 <div class="outline-text-4" id="text-1-2-3">
 <p>
-Writing our own compiler for all languages that we support would be imposible. Because of this merge compiler will split your code into pieces that external languages can understand.
+Writing our own compiler for all languages that we support would be impossible. Because of this merge compiler will split your code into pieces that external languages can understand.
 </p>
 
 <p>
-With this tecnique you can integrate any programming language to merge-lang using <a href="#orgfb2ad55">It&rsquo;s API</a>
+With this technique you can integrate any programming language to merge-lang using <a href="#orga0cb12d">It&rsquo;s API</a>
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-org30e9ae4" class="outline-4">
-<h4 id="org30e9ae4"><span class="section-number-4">1.2.4.</span> Compile</h4>
+<div id="outline-container-orge80999e" class="outline-4">
+<h4 id="orge80999e"><span class="section-number-4">1.2.4.</span> Compile</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<p>
+Merge language compiles to rust code, then LLVM IR and ASM.
+</p>
 </div>
-
-
-<div id="outline-container-org33ca4b3" class="outline-4">
-<h4 id="org33ca4b3"><span class="section-number-4">1.2.5.</span> Scheduling Execution</h4>
+</div>
+<div id="outline-container-org43eda01" class="outline-4">
+<h4 id="org43eda01"><span class="section-number-4">1.2.5.</span> Scheduling Execution</h4>
 <div class="outline-text-4" id="text-1-2-5">
 <p>
 The dependencies need to evaluate in a way that every language can get the value they need at the runtime in a linear way. (Just like single vs multi-thread apps)
@@ -396,9 +384,8 @@ And don&rsquo;t forget that we made a preconception by saying that Mr. Clumsy wi
 </p>
 </div>
 </div>
-
-<div id="outline-container-org5a917a6" class="outline-4">
-<h4 id="org5a917a6"><span class="section-number-4">1.2.6.</span> Runtime</h4>
+<div id="outline-container-org87f7c05" class="outline-4">
+<h4 id="org87f7c05"><span class="section-number-4">1.2.6.</span> Runtime</h4>
 <div class="outline-text-4" id="text-1-2-6">
 <p>
 It&rsquo;s wanted to see a nice execution sequience between languages that you use.
@@ -406,9 +393,8 @@ It&rsquo;s wanted to see a nice execution sequience between languages that you u
 </div>
 </div>
 </div>
-
-<div id="outline-container-org4a0627f" class="outline-3">
-<h3 id="org4a0627f"><span class="section-number-3">1.3.</span> Package Manager</h3>
+<div id="outline-container-org014ab24" class="outline-3">
+<h3 id="org014ab24"><span class="section-number-3">1.3.</span> Package Manager</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 merge package manager is pending right now.
@@ -416,12 +402,19 @@ merge package manager is pending right now.
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgfb2ad55" class="outline-2">
-<h2 id="orgfb2ad55"><span class="section-number-2">2.</span> API</h2>
+<div id="outline-container-orga0cb12d" class="outline-2">
+<h2 id="orga0cb12d"><span class="section-number-2">2.</span> API</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Merge-lang introduces an API to be able to use more and more languages with it.
+</p>
+</div>
+</div>
+<div id="outline-container-orgce976cc" class="outline-2">
+<h2 id="orgce976cc"><span class="section-number-2">3.</span> NOTES</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+forking crablang is one of my ideas so don&rsquo;t forget <a href="https://internals.rust-lang.org/t/forking-rust/7874/2">this</a>
 </p>
 </div>
 </div>
@@ -438,7 +431,7 @@ data transmissions done between programming languages.
 </div></div>
 <div id="postamble" class="status">
 <p class="author">Author: utfeight</p>
-<p class="date">Created: 2023-09-16 Sat 06:49</p>
+<p class="date">Created: 2023-11-26 Paz 17:42</p>
 </div>
 </body>
 </html>

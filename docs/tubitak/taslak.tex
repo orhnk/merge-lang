@@ -1,0 +1,110 @@
+% Created 2023-11-26 Paz 20:29
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{utfeight}
+\date{\today}
+\title{Taslak}
+\hypersetup{
+ pdfauthor={utfeight},
+ pdftitle={Taslak},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 28.2 (Org mode 9.7)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\begin{verse}
+Proje Ana Alanı    : Yazılım\\[0pt]
+Proje Tematik Alanı: Robotik Kodlama\\[0pt]
+Proje Adı (Başlığı): Merge\\[0pt]
+\end{verse}
+
+\begin{center}
+\includesvg[width=.9\linewidth]{./../../logo/logo-inkscp}
+\end{center}
+\section{Giriş}
+\label{sec:org9b2c757}
+Gelişen teknoloji ile birlikte yazılım alanında kullanılan metotların karmaşıklaşması yazılan programların soyutlaştırılması
+(abstraction\footnote{\url{https://en.wikipedia.org/wiki/Abstraction\_(computer\_science)}}) yazılım geliştiriciliğinin en temel ve önemli noktasıdır.
+
+Bu soyutlama basamakları sayesinde çoğu bilgisayar yazılımcısı alt seviyede (low level\footnote{\url{https://www.bbc.co.uk/bitesize/guides/z4cck2p/revision/2}})
+ne olduğuna vakıf olmasa bile bilgisayarlar için program geliştirebilmekte.
+
+Bu soyutlama evresinin göze çarpan en önemli elemanlarından birisi de programlama dilleridir. \footnote{\url{https://en.wikipedia.org/wiki/Programming\_language}}
+Bu diller sayesinde makina seviyesinde ne olduğunu bilmeden makinalar ile kolay bir biçimde konuşabiliriz.
+
+Ben de birden fazla programlama dilini bir arada kullanabilmek için merge meta programlama
+dilini\footnote{Merge programlama dilinin matematiksel kısmı diğer programlama dillerine dayanabilecek biçimde büyük çoğunluğu soyutlanmış
+biçimde tasarlanmıştır. Bu nedenle merge diğer programlama dillerinin üstünde (meta) bir programlama dilidir.} geliştirdim. Ana hedefim basit bir sözdizimi
+(syntax [\url{https://en.wikipedia.org/wiki/Syntax\_(programming\_languages)}]) ile kolaylıkla kullanılanılabilen, mümkün olduğu kadar hızlı ve basit bir programlama
+dili yazmaktı. [TODO: fix these grammatical mistakes]
+
+Programlar arasında yapılacak olan veri paylaşımını mümkün olan en güvenli şekilde uygulayabilmek için günümüz modern işletim
+sistemlerinde var olan protokollerden yararlandım. Önceliklerimden birisi performans olduğundan genel adı Inter Process Communication
+Mekanizmalarından yararlandım (shared mem  + file io for testing purposes)
+\subsection{Merge Geliştirme Aşamaları}
+\label{sec:org7302641}
+
+\subsubsection{Kaynak Kodu}
+\label{sec:org4815a23}
+
+Merge Programlama Dili Git proje organizasyon yazılımı ile Github bünyesinde geliştirilmiştir.
+
+Merge Dilini geliştirirken özenle seçtiğimiz ana yazılım dili olan Rust'ın bize gelişim aşamasında sağladığı katkılardan bahsetmek isterim.
+\begin{enumerate}
+\item Derleme (Compilation)
+\label{sec:org7a1577f}
+\item Yüksek Seviye Sözdizimi, Yüksek Performans
+\label{sec:orgff53a54}
+sistem programlama dilleri arasında oldukça yeni olan Rust, üst üste 8 yıl en çok istenilen programlama dili\footnote{} olarak öne çıkmıştır.
+\end{enumerate}
+\subsection{Merge Kullanım Alanları}
+\label{sec:org78806eb}
+
+\subsubsection{Test Temelli Yazılım Geliştirme - Test Driven Development (TDD)}
+\label{sec:org56bb7b5}
+
+Yazılım geliştiricileri için önerilen alışkanlıklar arasında ``birim testleri'' (Unit Testing) ilk sıralarda bulunur.
+Kısaca programınızı birimlere bölerek her birimin sağlıklı çalıştığından ve istenilen sonuçları verdiğinden emin olmak için yazılımcı tarafından testler yazılmasıdır.
+
+Bilgisayar bilimcileri arasında çok yaygın olan bu birim testlerinin geliştirilmesini kolaylaştırmak adına bir çok kütüphane yazılmıştır.
+Örnek olarak (C++ için) GTest ve Catch2 (Rust için) cargo test (Python için) PyUnit ve Pytest örnek verilebilir. [TODO: clean up]
+\subsubsection{Birden fazla bilgisayarın bir programı çalıştırması (Soket Tabanlı IPC - Socket Based IPC)}
+\label{sec:org0e83001}
+
+Bu senaryo, Merge programlama dilinin deneysel özelliklerinden birisi olup istisnai durumlar için faydalıdır.
+\begin{enumerate}
+\item Artı Yönleri
+\label{sec:orgc11e0a0}
+Bazı donanımsal kısıtlamalardan dolayı yazılımların istenilen biçimde çalışmadığı durumda Soket Tabanlı IPC komünikasyon
+protokollerini kullanarak işlemci gücü, dahili hafıza birimlerinin kapasitesi, internet komünikasyon
+paralelleştirmesi\footnote{birden fazla bilgisayar ile bir ya da birden çok erişim ağı ile bağlantı kurarak interneti maksimum etkiyle kullanabilmeyi sağlar}
+\item Eksi Yönleri
+\label{sec:orgf6d2239}
+
+Bilgisayarlar arası veri aktarımı, yeterli donanıma sahip olunmadığı zaman işleyiş süresi performansını (runtime performance) inanılmaz seviyede düşürebilir.
+\end{enumerate}
+\subsection{Merge Standartları}
+\label{sec:org3f6abcf}
+
+Yeni bir programlama dili geliştirmenin en zor yanlarından birisi olan sürdürülebilirliği (maintainability) sağlamak adına belirli standartlar belirlememiz gerekti. Başta programın formatı olmak üzere pek çok konu üzerinde belirlediğimiz standartlar sayesinde merge kullandığınız işletim sistemine bağlı olmadan çalışabilmektedir.
+\subsubsection{Dosya Uzantısı}
+\label{sec:org6d5886d}
+
+Merge meta programlama dilinin özelliklerini kullanmanın iki farklı yolu var: Merge ile program yazmak, Yazdığınız program hakkında Merge Derleyicisine (compiler) bilgi vermek.
+
+Eğer Merge programı yazmak istiyorsanız `.mg`
+Eğer Merge Derleyicisini kullanıyorsanız `.mg.<dil>` (`<dil>` yerine kullandığınız programlama dilinin uzantısını yazın. Örneğin Rust Programlama Dili için `.rs.mg` uzantısını kullanmalısınız)
+\end{document}

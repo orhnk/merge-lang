@@ -1,0 +1,3 @@
+#+title: Merge Logo
+* Preface
+The logos here have been created using inkscape vector graphics editing tool.

@@ -1,0 +1,6 @@
+[python]
+interpreter = "python3"
+packages = ["numpy=np", "pandas=pd"] # need to think about this
+
+[c]
+build = "cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS=-std=c++11"

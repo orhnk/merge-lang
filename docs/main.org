@@ -3,6 +3,10 @@
 
 #+title: Merge Programming Language
 
+ #+CAPTION: Merge Logo
+
+[[./../logo/logo-inkscp.svg]]
+
 * Merge
 NOTE: Any of the features are not implemented yet. It's planned to do so.
 
