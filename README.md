@@ -1,3 +1,19 @@
+# Archiving
+
+I thought this was a *good* idea but now I see It's just doing a thing that just *exists*.
+There is no such thing like IPC automation because writing a merge bridge is no different than writing
+a IPC call function.
+
+Maybe added Type-safety features to IPC's could be a programming paradigm but they exist too!
+Reinventing makes no sense for sure! Also It had to be "merge" not "merge-lang" because It's too
+domain specific, pretty verbose and unreadable.
+
+One of the reasons I saw this as a good project was:
+
+1. Inexperienced users that replied to me positively on various number of social media platforms.
+2. People like their ideas. I didn't want to criticize (I guess)
+3. I needed an idea for a competition. Even (probably) I saw some ambiguities in my project.
+
 # Table of Contents
 
 1. [Merge](#orgb4c558b)
